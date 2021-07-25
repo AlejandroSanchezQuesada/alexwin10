@@ -1,6 +1,7 @@
 /* Importar librerias */
 import styled, { keyframes } from "styled-components";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 /* Importar Imagenes */
 import imagenFondo from "../assets/img/windowsLock.jpg";
@@ -12,7 +13,7 @@ const fadeIn = keyframes`
 `;
 
 const Contenedor = styled.div`
-  font-family: "Segoe UI";
+  font-family: "Segoe UI Light";
   background-image: url(${imagenFondo});
   background-size: 100vw 100vh;
   display: grid;
@@ -20,6 +21,8 @@ const Contenedor = styled.div`
   grid-template-rows: repeat(5, minmax(20vh, auto));
   width: 100vw;
   height: 100vh;
+  transition: 0.5s;
+  filter: blur(${(props) => props.blurActivo});
 `;
 
 const RowFechas = styled.div`
@@ -27,13 +30,15 @@ const RowFechas = styled.div`
   grid-row-start: 5;
   grid-row-end: 6;
   display: ${({ showFecha }) => (showFecha ? "block" : "none")};
+  margin-left: 5%;
 `;
 
 const RowLogin = styled.div`
-  grid-column-start: auto;
-  grid-row-start: 2;
-  grid-row-end: 2;
-  grid-column: 2;
+  font-family: "Segoe UI Light";
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   display: ${({ showLogin }) => (showLogin ? "block" : "none")};
   animation: ${fadeIn} 1.2s;
@@ -59,9 +64,9 @@ const ButtonLogin = styled.button`
   color: white;
   font-size: 15px;
   margin-top: 2%;
-  padding: 2%;
+  padding: 4%;
   border: solid 2px white;
-  background-color: transparent;
+  background-color: rgba(228, 230, 232, 0.3);
   &:hover {
     box-shadow: 0px 0px 0px 2px #e4e6e8 inset;
   }
@@ -69,9 +74,10 @@ const ButtonLogin = styled.button`
 
 function Login() {
   const [fecha, setFecha] = useState(new Date());
-
   const [showLogin, setShowLogin] = useState(false);
   const [showFecha, setShowFecha] = useState(true);
+  const [blurActivo, setBlurActivo] = useState(0);
+  let history = useHistory();
 
   useEffect(() => {
     setInterval(() => {
@@ -169,10 +175,27 @@ function Login() {
   function mostrarElLoginEsconderLaFecha() {
     setShowLogin(true);
     setShowFecha(false);
+    setBlurActivo("10px");
+  }
+
+  function toEscritorio() {
+    history.push("Escritorio");
   }
 
   return (
-    <Contenedor onClick={mostrarElLoginEsconderLaFecha}>
+    <div>
+      <Contenedor
+        onClick={mostrarElLoginEsconderLaFecha}
+        blurActivo={blurActivo}
+      >
+        <RowFechas showFecha={showFecha}>
+          <EstiloLaHora>
+            {fecha.getHours()} : {minutos()}
+          </EstiloLaHora>
+          <br />
+          <EstiloLaFecha>{fechaFormateada()}</EstiloLaFecha>
+        </RowFechas>
+      </Contenedor>
       <RowLogin showLogin={showLogin}>
         <ImagenPerfilDiv>
           <img
@@ -185,18 +208,10 @@ function Login() {
           <EstiloTextoLogin>Alex</EstiloTextoLogin>
         </div>
         <div>
-          <ButtonLogin>Iniciar sesión</ButtonLogin>
+          <ButtonLogin onClick={toEscritorio}>Iniciar sesión</ButtonLogin>
         </div>
       </RowLogin>
-
-      <RowFechas showFecha={showFecha}>
-        <EstiloLaHora>
-          {fecha.getHours()} : {minutos()}
-        </EstiloLaHora>
-        <br />
-        <EstiloLaFecha>{fechaFormateada()}</EstiloLaFecha>
-      </RowFechas>
-    </Contenedor>
+    </div>
   );
 }
 
