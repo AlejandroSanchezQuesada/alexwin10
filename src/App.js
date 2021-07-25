@@ -1,19 +1,23 @@
 /* Imports de Librerias */
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 /* Imports de componentes */
-import Login from './components/Login';
+import Login from "./components/Login";
+import Escritorio from "./components/Escritorio/Escritorio";
 
 function App() {
   return (
     <div className="App">
-     <Router>
-     <Switch>
+      <Router>
+        <Switch>
+          <Route path="/Escritorio">
+            <Escritorio />
+          </Route>
           <Route path="/">
-            <Login/>
+            <Login />
           </Route>
         </Switch>
-     </Router>
+      </Router>
     </div>
   );
 }
