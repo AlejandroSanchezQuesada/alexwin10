@@ -1,10 +1,16 @@
 import { useState } from "react";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Rnd } from "react-rnd";
 
 import styled from "styled-components";
 
 /* Iconos */
 import chrome from "../../assets/img/chrome.png";
 import spotify from "../../assets/img/spotify.png";
+
+/* Componentes */
+import NavegadorChrome from "../Programas/NavegadorChrome";
 
 const Contenedor = styled.div`
   width: 100vw;
@@ -65,14 +71,44 @@ ImagenIcono.defaultProps = {
   src: "",
 };
 
+const DivDragger = styled.div`
+  position: absolute;
+  top: 0;
+  width: "800px";
+  height: "400px";
+`;
+
 function BarraTareas() {
   const [contenidoIconos, setContenidoIconos] = useState([
-    { id: 1, nombre: "Chrome", imagen: chrome, abrir: abroChrome },
+    { id: 1, nombre: "Google Chrome", imagen: chrome, abrir: abroChrome },
     { id: 2, nombre: "Spotify", imagen: spotify, abrir: abroSpotify },
   ]);
 
+  const [chromeAbierto, setChromeAbierto] = useState(false);
+  const [spotifyAbierto, setSpotifyAbierto] = useState(false);
+  const [mostrarChrome, setMostrarChrome] = useState("");
+
   function abroChrome() {
-    alert("Chrome");
+    setMostrarChrome(
+      ReactDOM.createPortal(
+        <DivDragger>
+          <Rnd
+            default={{
+              x: 150,
+              y: 205,
+              width: 500,
+              height: 190,
+            }}
+            minWidth={500}
+            minHeight={190}
+            bounds="window"
+          >
+            <NavegadorChrome></NavegadorChrome>
+          </Rnd>
+        </DivDragger>,
+        document.getElementById("navegadorChromePortal")
+      )
+    );
   }
 
   function abroSpotify() {
@@ -94,6 +130,8 @@ function BarraTareas() {
       </ContenedorIconoWindows>
 
       {iconos}
+
+      {mostrarChrome}
     </Contenedor>
   );
 }
