@@ -1,8 +1,10 @@
 import { useState } from "react";
-
+import ReactDOM from "react-dom";
+import { Rnd } from "react-rnd";
 import styled from "styled-components";
 
 import BarraTareas from "../UI/BarraTareas";
+import NavegadorChrome from "../Programas/NavegadorChrome";
 
 /* Imagenes */
 import wallpaper from "../../assets/img/mainwallpaper.jpg";
@@ -54,6 +56,13 @@ const GranContenedorIconos = styled.div`
   }
 `;
 
+const DivDragger = styled.div`
+  position: absolute;
+  top: 0;
+  width: "800px";
+  height: "400px";
+`;
+
 function Escritorio() {
   const [contenidoIconos, setContenidoIconos] = useState([
     {
@@ -62,12 +71,40 @@ function Escritorio() {
       imagen: papelera,
       abrir: abroPapelera,
     },
-    { id: 1, nombre: "Google Chrome", imagen: chrome, abrir: abroChrome },
+    {
+      id: 1,
+      nombre: "Google Chrome",
+      imagen: chrome,
+      abrir: abroChromeEscritorio,
+    },
     { id: 2, nombre: "Spotify", imagen: spotify, abrir: abroSpotify },
   ]);
 
-  function abroChrome() {
-    alert("Chrome");
+  const [mostrarChrome, setMostrarChrome] = useState("");
+
+  function abroChromeEscritorio() {
+    console.log("me ejecuto");
+    setMostrarChrome(
+      ReactDOM.createPortal(
+        <DivDragger>
+          <Rnd
+            default={{
+              x: 150,
+              y: 50,
+              width: "80vw",
+              height: "80vh",
+            }}
+            minWidth={400}
+            minHeight={50}
+            bounds="window"
+          >
+            <NavegadorChrome></NavegadorChrome>
+          </Rnd>
+        </DivDragger>,
+        document.getElementById("navegadorChromePortal")
+      )
+    );
+    document.getElementById("navegadorChromePortal").style.display = "block";
   }
 
   function abroSpotify() {
@@ -92,7 +129,8 @@ function Escritorio() {
   return (
     <div>
       <Contenedor>{iconos}</Contenedor>
-      <BarraTareas></BarraTareas>
+      <BarraTareas abrirChrome={abroChromeEscritorio}></BarraTareas>
+      {mostrarChrome}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import Iframe from "react-iframe";
 
 import styled from "styled-components";
 
@@ -9,6 +10,7 @@ const Contenedor = styled.div`
   margin: 0;
   height: 100%;
   cursor: default;
+  display: ${(props) => props.visible};
 `;
 
 const BarraNavegacion = styled.div`
@@ -78,19 +80,35 @@ const ContenidoNavegacion = styled.div`
   grid-template-rows: 100%;
 `;
 
-const WebBrowser = styled.div`
-  background-color: red;
-`;
+const WebBrowser = styled.div``;
 
-function NavegadorChrome() {
-  const url = useRef("www.google.es");
+function NavegadorChrome(props) {
+  const [url, setUrl] = useState("www.google.es");
+  const [showNavegador, setShowNavegador] = useState(props.visible);
 
-  function buscar() {
-    alert("buscando...");
+  function buscar(event) {
+    if (event.key === "Enter") {
+      console.log(event.target.value);
+      setUrl(event.target.value);
+    }
+  }
+
+  function minimizar() {
+    document.getElementById("navegadorChromePortal").style.display = "none";
+  }
+
+  function maximizar() {}
+
+  function cerrar() {
+    document.getElementById("navegadorChromePortal").style.display = "none";
+
+    setUrl("https://www.google.es");
+
+    document.getElementById("rutaInput").value = url;
   }
 
   return (
-    <Contenedor>
+    <Contenedor visible={showNavegador}>
       <BarraNavegacion>
         <BotonesRefresco>
           <DivIcono>
@@ -104,28 +122,36 @@ function NavegadorChrome() {
           </DivIcono>
         </BotonesRefresco>
         <InputDiv>
-          <form onSubmit={buscar} action="#">
-            <RutaURL placeholder={"www.google.es"} ref={url}></RutaURL>
-          </form>
+          <RutaURL
+            onKeyPress={buscar}
+            placeholder={url}
+            id="rutaInput"
+          ></RutaURL>
         </InputDiv>
         <BotonesVentana>
-          <DivIcono>
+          <DivIcono onClick={minimizar}>
             <Iconos className="far fa-window-minimize"></Iconos>
           </DivIcono>
-          <DivIcono>
+          <DivIcono onClick={maximizar}>
             <Iconos className="far fa-square"></Iconos>
           </DivIcono>
-          <DivIconoCerrar>
+          <DivIconoCerrar onClick={cerrar}>
             <Iconos className="fas fa-times"></Iconos>
           </DivIconoCerrar>
         </BotonesVentana>
       </BarraNavegacion>
       <ContenidoNavegacion>
         <WebBrowser>
-          <iframe
-            src={"www.google.es"}
-            title="W3Schools Free Online Web Tutorials"
-          ></iframe>
+          <Iframe
+            url={url}
+            width="100%"
+            height="100%"
+            id="myId"
+            className="myClassname"
+            display="initial"
+            position="relative"
+            sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation"
+          />
         </WebBrowser>
       </ContenidoNavegacion>
     </Contenedor>
