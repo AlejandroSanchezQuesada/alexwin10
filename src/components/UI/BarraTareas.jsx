@@ -7,6 +7,9 @@ import styled from "styled-components";
 import chrome from "../../assets/img/chrome.png";
 import spotify from "../../assets/img/spotify.png";
 
+/* Componentes */
+import OpcionesBarraTareas from "./OpcionesBarraTareas";
+
 const Contenedor = styled.div`
   width: 100vw;
   height: 50px;
@@ -72,12 +75,22 @@ function BarraTareas(props) {
     { id: 2, nombre: "Spotify", imagen: spotify, abrir: abroSpotify },
   ]);
 
+  const [mostrarOpciones, setMostrarOpciones] = useState("none");
+
   function abroChrome() {
     props.abrirChrome();
   }
 
   function abroSpotify() {
     alert("Spotify");
+  }
+
+  function toggleOpciones() {
+    if (mostrarOpciones != "block") {
+      setMostrarOpciones("block");
+    } else if (mostrarOpciones != "none") {
+      setMostrarOpciones("none");
+    }
   }
 
   const iconos = contenidoIconos.map((icono) => {
@@ -90,7 +103,11 @@ function BarraTareas(props) {
 
   return (
     <Contenedor>
-      <ContenedorIconoWindows>
+      <OpcionesBarraTareas
+        visible={mostrarOpciones}
+        abrirChrome={props.abrirChrome}
+      />
+      <ContenedorIconoWindows onClick={toggleOpciones}>
         <IconoWindows className="fab fa-windows"></IconoWindows>
       </ContenedorIconoWindows>
 

@@ -11,6 +11,7 @@ import wallpaper from "../../assets/img/mainwallpaper.jpg";
 import chrome from "../../assets/img/chrome.png";
 import spotify from "../../assets/img/spotify.png";
 import papelera from "../../assets/img/papelera.png";
+import paint from "../../assets/img/paint.png";
 
 const Contenedor = styled.div`
   background-image: url(${wallpaper});
@@ -78,12 +79,12 @@ function Escritorio() {
       abrir: abroChromeEscritorio,
     },
     { id: 2, nombre: "Spotify", imagen: spotify, abrir: abroSpotify },
+    { id: 3, nombre: "Paint", imagen: paint, abrir: abroPaint },
   ]);
 
   const [mostrarChrome, setMostrarChrome] = useState("");
 
   function abroChromeEscritorio() {
-    console.log("me ejecuto");
     setMostrarChrome(
       ReactDOM.createPortal(
         <DivDragger>
@@ -113,6 +114,10 @@ function Escritorio() {
 
   function abroPapelera() {
     alert("Papelera");
+  }
+
+  function abroPaint() {
+    alert("Paint");
   }
 
   const iconos = contenidoIconos.map((icono) => {
