@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 /* Imagenes */
 import perfil from "../../assets/img/profile.png";
@@ -121,7 +122,9 @@ const OpcionesCarpeta = styled(OpcionesIcono)`
   width: 90%;
 `;
 
-const ContenedorApagar = styled.div`
+const ContenedorApagar = styled(Link)`
+  text-decoration: none;
+  color: white;
   display: flex;
   justify-content: left;
   display: flex;
@@ -201,7 +204,7 @@ function OpcionesBarraTareas(props) {
         <ContenedorInput>
           <InputBuscar placeholder="Buscar programas y archivos..."></InputBuscar>
         </ContenedorInput>
-        <ContenedorApagar>Apagar</ContenedorApagar>
+        <ContenedorApagar to={"/"}>Apagar</ContenedorApagar>
       </ContenedorOpcionesAbajo>
     </Contenedor>
   );

@@ -12,6 +12,7 @@ import chrome from "../../assets/img/chrome.png";
 import spotify from "../../assets/img/spotify.png";
 import papelera from "../../assets/img/papelera.png";
 import paint from "../../assets/img/paint.png";
+import Spotify from "../Programas/Spotify";
 
 const Contenedor = styled.div`
   background-image: url(${wallpaper});
@@ -83,6 +84,7 @@ function Escritorio() {
   ]);
 
   const [mostrarChrome, setMostrarChrome] = useState("");
+  const [mostrarSpotify, setMostrarSpotify] = useState("");
 
   function abroChromeEscritorio() {
     setMostrarChrome(
@@ -109,7 +111,27 @@ function Escritorio() {
   }
 
   function abroSpotify() {
-    alert("Spotify");
+    setMostrarSpotify(
+      ReactDOM.createPortal(
+        <DivDragger>
+          <Rnd
+            default={{
+              x: 150,
+              y: 50,
+              width: "80vw",
+              height: "80vh",
+            }}
+            minWidth={400}
+            minHeight={50}
+            bounds="window"
+          >
+            <Spotify></Spotify>
+          </Rnd>
+        </DivDragger>,
+        document.getElementById("spotifyPortal")
+      )
+    );
+    document.getElementById("spotifyPortal").style.display = "block";
   }
 
   function abroPapelera() {
@@ -136,6 +158,7 @@ function Escritorio() {
       <Contenedor>{iconos}</Contenedor>
       <BarraTareas abrirChrome={abroChromeEscritorio}></BarraTareas>
       {mostrarChrome}
+      {mostrarSpotify}
     </div>
   );
 }
