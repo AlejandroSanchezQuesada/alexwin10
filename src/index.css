@@ -35,6 +35,13 @@
   src: url("./assets/font/Segoe\ UI\ Bold\ Italic.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Circular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/font/CircularStd-Book.woff") format("woff");
+}
+
 /* ⬇ Todos los creditos de la hoja de reseteo de CSS a ⬇ */
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
