@@ -24,7 +24,7 @@ const Contenedor = styled.div`
   grid-template-columns: repeat(auto-fill, 5vw);
   font-family: "Segoe UI Regular";
 `;
-
+/* s */
 const ContenedorIconos = styled.div`
   margin-top: 10px;
   display: flex;
